@@ -330,11 +330,17 @@ public class GrafoLAND<E> {
         {
             dijkstra(inicio);
             Vertice<E> temporal = fin;
-            do
-            {
-                camino.addFirst(temporal.getElement()+" actuó en "+temporal.getPelicula()+" con "+ temporal.getAnterior().getElement());
-                temporal = temporal.getAnterior();
-            }while(temporal.getAnterior()!=null);
+            try{
+                do
+                {
+                    camino.addFirst(temporal.getElement()+" actuó en "+temporal.getPelicula()+" con "+ temporal.getAnterior().getElement());
+                    temporal = temporal.getAnterior();
+                }while(temporal.getAnterior()!=null);
+            } catch(NullPointerException e){
+                camino.clear();
+                camino.add(origen+" no ha actuado en ninguna película con "+destino);
+                return camino;
+            }
         }
         this.limpiarDijkstra();
         return camino;

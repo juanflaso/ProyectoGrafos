@@ -24,6 +24,6 @@ public class Prueba {
         System.out.println(grafo);
         System.out.println(grafo.caminoMasCorto("3590", "1"));
         System.out.println(grafo.caminoMasCorto("3", "1"));
-        grafo.caminoMasCortoPeliculas("1534", "1");
+        System.out.println(grafo.caminoMasCortoPeliculas("1534", "1"));
     }
 }
