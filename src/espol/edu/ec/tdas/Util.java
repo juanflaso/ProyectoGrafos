@@ -10,96 +10,87 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author User
  */
 public class Util {
-    
-    public static HashMap<String, String> cargarActores(String ruta)
-    {
-        HashMap<String,String> actores =  new HashMap<>();
-        try {
-            Scanner sc = new Scanner(new File(ruta));
-            while(sc.hasNext())
-            {
+
+    private static final String MENSAJE = "Archivo no encontrado";
+    private static final Logger LOGGER = Logger.getLogger("util");
+
+    private Util() {
+
+    }
+
+    public static HashMap<String, String> cargarActores(String ruta) {
+        HashMap<String, String> actores = new HashMap<>();
+        try (Scanner sc = new Scanner(new File(ruta))) {
+            while (sc.hasNext()) {
                 String linea = sc.nextLine();
                 String[] arreglo = linea.split("\\|");
                 String codigo = arreglo[0];
                 String nombre = arreglo[1];
-                actores.put(codigo,nombre);
+                actores.put(codigo, nombre);
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("Archivo no encontrado");
+            LOGGER.log(Level.FINER, MENSAJE);
         }
         return actores;
     }
-    
-    public static HashMap<String, String> cargarPeliculas(String ruta)
-    {
-        HashMap<String,String> peliculas =  new HashMap<>();
-        try {
-            Scanner sc = new Scanner(new File(ruta));
-            while(sc.hasNext())
-            {
+
+    public static HashMap<String, String> cargarPeliculas(String ruta) {
+        HashMap<String, String> peliculas = new HashMap<>();
+        try (Scanner sc = new Scanner(new File(ruta))) {
+            while (sc.hasNext()) {
                 String linea = sc.nextLine();
                 String[] arreglo = linea.split("\\|");
                 String codigo = arreglo[0];
                 String nombre = arreglo[1];
-                peliculas.put(codigo,nombre);
+                peliculas.put(codigo, nombre);
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("Archivo no encontrado");
+            LOGGER.log(Level.FINER, MENSAJE);
         }
         return peliculas;
     }
-    
-    public static HashMap<String, LinkedList<String>> cargarPeliculaActor(String ruta)
-    {
-        HashMap<String,LinkedList<String>> pelicula =  new HashMap<>();
-        try {
-            Scanner sc = new Scanner(new File(ruta));
-            while(sc.hasNext())
-            {
+
+    public static HashMap<String, LinkedList<String>> cargarPeliculaActor(String ruta) {
+        HashMap<String, LinkedList<String>> pelicula = new HashMap<>();
+        try (Scanner sc = new Scanner(new File(ruta))) {
+            while (sc.hasNext()) {
                 String linea = sc.nextLine();
                 String[] arreglo = linea.split("\\|");
                 String codigo = arreglo[0];
                 String nombre = arreglo[1];
-                if(pelicula.keySet().contains(codigo))
-                {
+                if (pelicula.keySet().contains(codigo)) {
                     pelicula.get(codigo).add(nombre);
-                }
-                else
-                {
+                } else {
                     LinkedList<String> lista = new LinkedList<>();
                     lista.add(nombre);
                     pelicula.put(codigo, lista);
                 }
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("Archivo no encontrado");
+            LOGGER.log(Level.FINER, MENSAJE);
         }
         return pelicula;
     }
- 
-    public static GrafoLAND<String> crearGrafo(HashMap<String, String> actores, 
-            HashMap<String, String> peliculas, HashMap<String, LinkedList<String>> infoPeliculaActor)
-    {
+
+    public static GrafoLAND<String> crearGrafo(HashMap<String, String> actores,
+            HashMap<String, String> peliculas, HashMap<String, LinkedList<String>> infoPeliculaActor) {
         GrafoLAND<String> grafo = new GrafoLAND<>();
-        for(String actor:actores.keySet())
-        {
+        for (String actor : actores.keySet()) {
             grafo.agregarVertice(actor);
         }
-        for(String pelicula: infoPeliculaActor.keySet())
-        {
+        for (String pelicula : infoPeliculaActor.keySet()) {
             LinkedList<String> listaActor = infoPeliculaActor.get(pelicula);
-            for(String actor1:listaActor)
-            {
-                for(String actor2:listaActor)
-                {
-                    if(!actor1.equals(actor2))
-                    {
+            for (String actor1 : listaActor) {
+                for (String actor2 : listaActor) {
+                    if (!actor1.equals(actor2)) {
                         grafo.agregarArco(actor1, actor2, 1, peliculas.get(pelicula));
                     }
                 }

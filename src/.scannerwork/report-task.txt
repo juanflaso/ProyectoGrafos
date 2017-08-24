@@ -1,0 +1,6 @@
+projectKey=ky8xq2
+serverUrl=http://200.126.12.59:9000
+serverVersion=6.4.0.25310
+dashboardUrl=http://200.126.12.59:9000/dashboard/index/ky8xq2
+ceTaskId=AV4QZqu76DyNhGNC88pd
+ceTaskUrl=http://200.126.12.59:9000/api/ce/task?id=AV4QZqu76DyNhGNC88pd

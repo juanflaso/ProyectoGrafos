@@ -13,6 +13,7 @@ import java.util.Objects;
  * @param <E>
  */
 public class Arco<E> {
+
     int peso;
     private Vertice<E> origen;
     private Vertice<E> destino;
@@ -24,7 +25,7 @@ public class Arco<E> {
         this.destino = destino;
         this.pelicula = pelicula;
     }
-    
+
     public Arco(Vertice<E> origen, Vertice<E> destino) {
         this.peso = 0;
         this.origen = origen;
@@ -54,11 +55,9 @@ public class Arco<E> {
     public void setDestino(Vertice<E> destino) {
         this.destino = destino;
     }
-    
-    public boolean contains(Vertice<E> vertice)
-    {
-        if(vertice == null)
-        {
+
+    public boolean contains(Vertice<E> vertice) {
+        if (vertice == null) {
             return false;
         }
         return this.origen.equals(vertice) || this.destino.equals(vertice);
@@ -71,25 +70,30 @@ public class Arco<E> {
     public void setPelicula(String pelicula) {
         this.pelicula = pelicula;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
-        if(obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        Arco<E> arco = (Arco)obj;
-        return this.getOrigen().equals(arco.getOrigen())&&this.getDestino().equals(arco.getDestino());
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        Arco<E> arco = (Arco) obj;
+        return this.getOrigen().equals(arco.getOrigen()) && this.getDestino().equals(arco.getDestino());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.origen);
+        hash = 71 * hash + Objects.hashCode(this.destino);
+        return hash;
     }
 
     @Override
     public String toString() {
-        return "("+ origen + ", " + destino + ')';
+        return "(" + origen + ", " + destino + ')';
     }
-    
-    
-    
-    
-    
-    
+
 }

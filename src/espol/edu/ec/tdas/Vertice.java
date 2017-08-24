@@ -15,6 +15,7 @@ import java.util.Objects;
  * @param <E>
  */
 public class Vertice<E> {
+
     private E element;
     private List<Arco> arcos;
     private boolean visited;
@@ -62,15 +63,23 @@ public class Vertice<E> {
         this.pelicula = pelicula;
     }
 
-
     @Override
     public boolean equals(Object obj) {
-        if(obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        Vertice<E> v = (Vertice)obj;
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        Vertice<E> v = (Vertice) obj;
         return this.getElement().equals(v.getElement());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 31 * hash + Objects.hashCode(this.element);
+        return hash;
     }
 
     @Override
@@ -93,8 +102,5 @@ public class Vertice<E> {
     public void setAnterior(Vertice<E> anterior) {
         this.anterior = anterior;
     }
-    
-    
-    
-    
+
 }
